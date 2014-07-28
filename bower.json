@@ -1,0 +1,26 @@
+{
+  "name": "brick-action-menu",
+  "version": "0.0.0",
+  "homepage": "https://github.com/lmorchard/brick-action-menu",
+  "authors": [
+    "mozilla"
+  ],
+  "description": "A Brick component that manages an action menu",
+  "main": "src/element.html",
+  "keywords": [
+    "brick",
+    "webcomponents"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "brick-common": "*",
+    "platform": "Polymer/platform"
+  }
+}
