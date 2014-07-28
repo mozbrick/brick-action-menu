@@ -10,6 +10,15 @@
   var attrs = {
   };
 
+  // Custom methods
+
+  /*
+  BrickActionMenuElementPrototype.foo = function () {
+  };
+  */
+
+  // Initial setup of the custom element
+
   function setup (element) {
     element.ns = {};
 
@@ -26,7 +35,10 @@
     element.appendChild(element.root);
   }
 
+  // Post-setup update for custom element
+
   function update (element) {
+    console.log("UPDATE " + element);
   }
 
   // Lifecycle methods
@@ -36,6 +48,7 @@
   };
 
   BrickActionMenuElementPrototype.attachedCallback = function () {
+    // Update all the attribs on attach before updating.
     for (var k in attrs) {
       attrs[k].call(this, null, this.getAttribute(k));
     }
@@ -43,6 +56,7 @@
   };
 
   BrickActionMenuElementPrototype.attributeChangedCallback = function (attr, oldVal, newVal) {
+    // Update a single attrib on change before updating.
     if (attr in attrs) {
       attrs[attr].call(this, oldVal, newVal);
     }
@@ -53,13 +67,6 @@
     // TODO: Do I really need to do this? Memory leak superstition.
     this.root = this.ns = null;
   };
-
-  // Custom methods
-
-  /*
-  BrickActionMenuElementPrototype.foo = function () {
-  };
-  */
 
   // Property handlers, magically boilerplated
 
