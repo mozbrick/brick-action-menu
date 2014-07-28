@@ -14,7 +14,31 @@
   <body>
 
     <!-- Using Custom Element -->
-    <brick-action-menu></brick-action-menu>
+    <brick-action-menu>
+    
+      <!-- header is optional -->
+      <header>
+        <button><span class="icon icon-close">close</span></button>
+        <menu type="toolbar">
+          <button>Done</button>
+        </menu>
+        <h1>Example Title</h1>
+      </header>
+
+      <section>
+        <p>Curabitur condimentum diam mollis lacus hendrerit congue. Phasellus
+        porttitor orci elit, ac consequat est mollis ut. Ut consequat ipsum a
+        ullamcorper aliquam.</p>
+      </section>
+
+      <menu>
+        <button> Action 1 </button>
+        <button disabled> Action 2 (disabled) </button>
+        <button> Action 3 </button>
+
+        <button> Cancel </button>
+      </menu>
+    </brick-action-menu>
 
   </body>
 </html>
