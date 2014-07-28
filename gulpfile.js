@@ -13,7 +13,7 @@ var paths = {
   'main': 'src/element.html',
   'scripts': 'src/*.js',
   'stylesheets': 'src/*.styl',
-  'src': 'src/*',
+  'src': 'src/**/*',
   'index': 'index.html',
   'bowerComponents': 'bower_components/**/*',
   'testfiles': ['test/*', 'bower_components/platform/platform.js']
