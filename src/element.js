@@ -8,25 +8,111 @@
   // Attribute handlers
  
   var attrs = {
+
+    "visible": function (oldVal, newVal) {
+
+      // Be very particular about what values of "visible" mean not visible.
+      newVal = ('undefined' !== typeof newVal) &&
+               (null !== newVal) &&
+               (false !== newVal);
+
+      if (oldVal === newVal) {
+        return;
+      } else if (newVal === true) {
+        this.show(null, true);
+      } else if (newVal === false) {
+        this.hide(true);
+      }
+    }
+
   };
 
-  function setup (element) {
-    element.ns = {};
+  // Custom methods
+  
+  BrickActionMenuElementPrototype.show = function (callback, immediate) {
+    if (this.ns.visible) { return; }
+    this.ns.visible = true;
+    this.ns.callback = callback;
+    this.root.classList.remove('fade-out');
+    this.root.classList.remove('hide');
+    this.root.classList.add(immediate ? 'show' : 'fade-in');
+  };
 
-    // Grab root element from template, clone & remember it
+  BrickActionMenuElementPrototype.hide = function (immediate) {
+    if (!this.ns.visible) { return; }
+    this.ns.visible = false;
+    this.ns.callback = null;
+    this.root.classList.remove('fade-in');
+    this.root.classList.remove('show');
+    this.root.classList.add(immediate ? 'hide' : 'fade-out');
+  };
+
+  var EV_PICK = 'pick';
+  var RE_BUTTON = /^button$/i;
+
+  // Initial setup of the custom element
+
+  function setup (_this) {
+    _this.ns = {
+      visible: false
+    };
+
+    // Grab root _this from template, clone & remember it
     var frag = document.importNode(tmpl.content, true);
-    element.root = frag.querySelector('form');
+    _this.root = frag.querySelector('form');
 
-    // Move all the custom element children into the cloned root
-    while (element.firstChild) {
-      element.root.appendChild(element.firstChild);
+    // Move all the custom _this children into the cloned root
+    while (_this.firstChild) {
+      _this.root.appendChild(_this.firstChild);
+    }
+
+    // Event delegation for all buttons in the menu
+    _this.root.addEventListener('click', function (e) {
+      if (!RE_BUTTON.test(e.target.tagName)) { return; }
+
+      // Do we have a callback supplied from show()?
+      if (_this.ns.callback) {
+        // HACK: Preserve the callback we're about to discard on hide(), but
+        // defer the callback for just a little bit.
+        (function (cb) {
+          setTimeout(function () { cb(e.target); }, 0.1);
+        })(_this.ns.callback);
+      }
+
+      // Dispatch a custom event for the menu item pick
+      e.target.dispatchEvent(new CustomEvent(EV_PICK, {
+        bubbles: true
+      }));
+
+      // Finish up by hiding the menu.
+      return _this.hide();
+    });
+
+    // Squelch the form submission process
+    _this.root.addEventListener('submit', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    });
+
+    // HACK: Annotate the menu for styling if there's a cancel button
+    var elCancel = _this.root.querySelector('button.cancel');
+    if (elCancel) {
+      _this.root.setAttribute('data-with-cancel', 'true');
     }
 
     // Inject the cloned root into the document.
-    element.appendChild(element.root);
+    _this.appendChild(_this.root);
   }
 
-  function update (element) {
+  // Post-setup update for custom element
+
+  function update (_this) {
+    return _this;
+  }
+
+  function cleanup (_this) {
+    // TODO: Do I really need to do this? Memory leak superstition.
+    _this.root = _this.ns = null;
   }
 
   // Lifecycle methods
@@ -36,13 +122,17 @@
   };
 
   BrickActionMenuElementPrototype.attachedCallback = function () {
+    // Update all the attribs on attach before updating.
     for (var k in attrs) {
-      attrs[k].call(this, null, this.getAttribute(k));
+      if (this.hasAttribute(k)) {
+        attrs[k].call(this, undefined, this.getAttribute(k));
+      }
     }
     update(this);
   };
 
   BrickActionMenuElementPrototype.attributeChangedCallback = function (attr, oldVal, newVal) {
+    // Update a single attrib on change before updating.
     if (attr in attrs) {
       attrs[attr].call(this, oldVal, newVal);
     }
@@ -50,16 +140,8 @@
   };
 
   BrickActionMenuElementPrototype.detachedCallback = function () {
-    // TODO: Do I really need to do this? Memory leak superstition.
-    this.root = this.ns = null;
+    cleanup(this);
   };
-
-  // Custom methods
-
-  /*
-  BrickActionMenuElementPrototype.foo = function () {
-  };
-  */
 
   // Property handlers, magically boilerplated
 
