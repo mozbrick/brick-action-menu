@@ -10,7 +10,6 @@
   var attrs = {
 
     "visible": function (oldVal, newVal) {
-
       // Be very particular about what values of "visible" mean not visible.
       newVal = ('undefined' !== typeof newVal) &&
                (null !== newVal) &&
@@ -66,28 +65,6 @@
       _this.root.appendChild(_this.firstChild);
     }
 
-    // Event delegation for all buttons in the menu
-    _this.root.addEventListener('click', function (e) {
-      if (!RE_BUTTON.test(e.target.tagName)) { return; }
-
-      // Do we have a callback supplied from show()?
-      if (_this.ns.callback) {
-        // HACK: Preserve the callback we're about to discard on hide(), but
-        // defer the callback for just a little bit.
-        (function (cb) {
-          setTimeout(function () { cb(e.target); }, 0.1);
-        })(_this.ns.callback);
-      }
-
-      // Dispatch a custom event for the menu item pick
-      e.target.dispatchEvent(new CustomEvent(EV_PICK, {
-        bubbles: true
-      }));
-
-      // Finish up by hiding the menu.
-      return _this.hide();
-    });
-
     // Squelch the form submission process
     _this.root.addEventListener('submit', function (e) {
       e.preventDefault();
@@ -100,14 +77,32 @@
       _this.root.setAttribute('data-with-cancel', 'true');
     }
 
+    // Event delegation for all buttons in the menu
+    _this.root.addEventListener('click', function (e) {
+      if (!RE_BUTTON.test(e.target.tagName)) { return; }
+
+      // Do we have a callback supplied from show()?
+      if (_this.ns.callback) {
+        // HACK: Preserve the callback we're about to discard on hide(), but
+        // defer the callback for just a little bit.
+        (function (cb) {
+          setTimeout(function () {
+            cb(e.target);
+          }, 0.1);
+        })(_this.ns.callback);
+      }
+
+      // Dispatch a custom event for the menu item pick
+      e.target.dispatchEvent(new CustomEvent(EV_PICK, {
+        bubbles: true
+      }));
+
+      // Finish up by hiding the menu.
+      return _this.hide();
+    });
+
     // Inject the cloned root into the document.
     _this.appendChild(_this.root);
-  }
-
-  // Post-setup update for custom element
-
-  function update (_this) {
-    return _this;
   }
 
   function cleanup (_this) {
@@ -122,21 +117,21 @@
   };
 
   BrickActionMenuElementPrototype.attachedCallback = function () {
-    // Update all the attribs on attach before updating.
     for (var k in attrs) {
       if (this.hasAttribute(k)) {
         attrs[k].call(this, undefined, this.getAttribute(k));
       }
     }
-    update(this);
+    // Handle all attribs on attach before updating.
+    // update(this);
   };
 
   BrickActionMenuElementPrototype.attributeChangedCallback = function (attr, oldVal, newVal) {
-    // Update a single attrib on change before updating.
     if (attr in attrs) {
       attrs[attr].call(this, oldVal, newVal);
     }
-    update(this);
+    // Handle a single attrib on change before updating.
+    // update(this);
   };
 
   BrickActionMenuElementPrototype.detachedCallback = function () {
