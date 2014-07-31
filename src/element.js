@@ -8,13 +8,30 @@
   // Attribute handlers
  
   var attrs = {
+
+    "visible": function (oldVal, newVal) {
+
+      // Be very particular about what values of "visible" mean not visible.
+      newVal = ('undefined' !== typeof newVal) &&
+               (null !== newVal) &&
+               (false !== newVal);
+
+      if (oldVal === newVal) {
+        return;
+      } else if (newVal === true) {
+        this.show(null, true);
+      } else if (newVal === false) {
+        this.hide(true);
+      }
+    }
+
   };
 
   // Custom methods
   
   BrickActionMenuElementPrototype.show = function (callback, immediate) {
-    if (this.ns.shown) { return; }
-    this.ns.shown = true;
+    if (this.ns.visible) { return; }
+    this.ns.visible = true;
     this.ns.callback = callback;
     this.root.classList.remove('fade-out');
     this.root.classList.remove('hide');
@@ -22,8 +39,8 @@
   };
 
   BrickActionMenuElementPrototype.hide = function (immediate) {
-    if (!this.ns.shown) { return; }
-    this.ns.shown = false;
+    if (!this.ns.visible) { return; }
+    this.ns.visible = false;
     this.ns.callback = null;
     this.root.classList.remove('fade-in');
     this.root.classList.remove('show');
@@ -37,7 +54,7 @@
 
   function setup (_this) {
     _this.ns = {
-      shown: false
+      visible: false
     };
 
     // Grab root _this from template, clone & remember it
@@ -107,7 +124,9 @@
   BrickActionMenuElementPrototype.attachedCallback = function () {
     // Update all the attribs on attach before updating.
     for (var k in attrs) {
-      attrs[k].call(this, null, this.getAttribute(k));
+      if (this.hasAttribute(k)) {
+        attrs[k].call(this, undefined, this.getAttribute(k));
+      }
     }
     update(this);
   };
