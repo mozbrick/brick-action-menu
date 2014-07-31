@@ -13,10 +13,39 @@
   </head>
   <body>
 
-    <!-- Using Custom Element -->
-    <brick-action-menu>
+    <h1>brick-action-menu demo</h1>
+
+    <p>This is a demo of the brick-action-menu web component!</p>
+
+    <ul id="show-examples">
+      <li><button id="ex1" data-show="menu-ex1">Show Example #1: Simple</button></li>
+      <li><button id="ex2" data-show="menu-ex2">Show Example #2: Header &amp; cancel</button></li>
+      <li><button id="ex3" data-show="menu-ex3">Show Example #3: Full features</button></li>
+    </ul>
+
+    <brick-action-menu id="menu-ex1">
+      <menu>
+        <button>Action 1</button>
+        <button>Action 2</button>
+        <button>Action 3</button>
+      </menu>
+    </brick-action-menu>
     
-      <!-- header is optional -->
+    <brick-action-menu id="menu-ex2">
+      <header>
+        <h1>Example Title</h1>
+      </header>
+
+      <menu>
+        <button>Action 1</button>
+        <button disabled>Action 2 (disabled)</button>
+        <button>Action 3</button>
+
+        <button class="cancel">Cancel</button>
+      </menu>
+    </brick-action-menu>
+
+    <brick-action-menu id="menu-ex3">
       <header>
         <button><span class="icon icon-close">close</span></button>
         <menu type="toolbar">
@@ -32,13 +61,24 @@
       </section>
 
       <menu>
-        <button> Action 1 </button>
-        <button disabled> Action 2 (disabled) </button>
-        <button> Action 3 </button>
+        <button>Action 1</button>
+        <button disabled>Action 2 (disabled)</button>
+        <button>Action 3</button>
 
-        <button> Cancel </button>
+        <button class="cancel">Cancel</button>
       </menu>
     </brick-action-menu>
+
+    <script type="text/javascript">
+      // Event delegation for example buttons
+      document.getElementById('show-examples')
+        .addEventListener('click', function (e) {
+          var id = e.target.getAttribute('data-show');
+          if (id) {
+            document.getElementById(id).show();
+          }
+        });
+    </script>
 
   </body>
 </html>
