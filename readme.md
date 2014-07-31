@@ -1,6 +1,6 @@
 # brick-action-menu
 
-> A [Brick](https://github.com/mozilla/brick/) custom element starter-kit.
+> An action menu element for [Brick](https://github.com/mozilla/brick/)
 
 ## Demo
 
@@ -23,30 +23,50 @@
 3. Start using it:
 
     ```html
-    <brick-action-menu></brick-action-menu>
+    <brick-action-menu id="menu-ex1">
+      <menu>
+        <button>Action 1</button>
+        <button>Action 2</button>
+        <button>Action 3</button>
+      </menu>
+    </brick-action-menu>
+    ```
+
+    ```javascript
+    var menu = document.getElementById('menu-ex1');
+
+    // Optional event handler
+    menu.addEventListener('pick', function (ev) {
+      var button = ev.target;
+      // Handle clicked menu item button here.
+    });
+
+    // Optional callback on show()
+    menu.show(function (button) {
+      // Handle clicked menu item button here.
+    });
     ```
 
 ## Options
 
 Attribute     | Options     | Default      | Description
 ---           | ---         | ---          | ---
-`foo`         | *string*    | `bar`        | An Attribute.
+`visible`     | *boolean*   | `false`      | Whether or not the menu is visible and active.
 
 ## Methods
 
 Method        | Parameters   | Returns     | Description
 ---           | ---          | ---         | ---
-`method()`    | None.        | Nothing.    | A method.
+`show([cb])`  | Optional callback, receives the menu item clicked | Nothing. | Reveals and activates the menu.
+`hide()`      | None.        | Nothing.    | Hide and deactivate the menu. 
 
 ## Events
 
 Event         | Description
 ---           | ---
-`onsomething` | Triggers when something happens.
+`onpick`      | Triggered when an item is chosen from the menu.
 
 ## Development
-
-Brick components use [Stylus](http://learnboost.github.com/stylus/) to generate their CSS.
 
 This repository comes outfitted with a set of tools to ease the development process.
 
