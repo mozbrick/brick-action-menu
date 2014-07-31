@@ -10,6 +10,13 @@
 
     <!-- Importing Custom Elemenent -->
     <link rel="import" href="src/element.html">
+
+    <style type="text/css">
+      textarea#log {
+        width: 75%;
+        height: 25ex;
+      }
+    </style>
   </head>
   <body>
 
@@ -17,11 +24,16 @@
 
     <p>This is a demo of the brick-action-menu web component!</p>
 
+    <h2>Menus</h2>
+
     <ul id="show-examples">
-      <li><button id="ex1" data-show="menu-ex1">Show Example #1: Simple</button></li>
+      <li><button id="ex1" data-show="menu-ex1">Show Example #1: Simple, without cancel</button></li>
       <li><button id="ex2" data-show="menu-ex2">Show Example #2: Header &amp; cancel</button></li>
       <li><button id="ex3" data-show="menu-ex3">Show Example #3: Full features</button></li>
     </ul>
+
+    <h2>Results</h2>
+    <textarea id="log"></textarea>
 
     <brick-action-menu id="menu-ex1">
       <menu>
@@ -70,14 +82,48 @@
     </brick-action-menu>
 
     <script type="text/javascript">
-      // Event delegation for example buttons
-      document.getElementById('show-examples')
-        .addEventListener('click', function (e) {
+
+      document.addEventListener('WebComponentsReady', function () { 
+
+        // Wire up event listeners for all action menus
+        var menus = document.querySelectorAll('brick-action-menu');
+        for (var i = 0; i < menus.length; i++) {
+          (function (menu) {
+           
+            // NOTE: Menus emit a 'pick' event when an item is clicked.
+            menu.addEventListener('pick', function (e) {
+              _log("Event 'pick': " + menu.id + ", " + e.target.innerHTML); 
+            });
+
+          })(menus[i]);
+        }
+
+        // Wire up event delegation for example buttons
+        var buttonList = document.getElementById('show-examples');
+        buttonList.addEventListener('click', function (e) {
           var id = e.target.getAttribute('data-show');
           if (id) {
-            document.getElementById(id).show();
+            var menu = document.getElementById(id);
+
+            // NOTE: show() reveals the menu, accepts an optional callback
+            menu.show(function (button) {
+              _log("Callback: " + id + ", " + button.innerHTML); 
+            });
+
           }
         });
+
+      });
+
+      // Quick-and-dirty logging for when devtools are closed
+      var logEL = document.getElementById('log');
+      logEL.value = '';
+      function _log (msg) {
+        console.log(msg);
+        logEL.value += Date.now() + ' - ' + msg + "\n";
+        logEL.scrollTop = logEL.scrollHeight;
+      }
+
     </script>
 
   </body>
