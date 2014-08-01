@@ -26,13 +26,20 @@
     <brick-action-menu id="menu-ex1">
       <menu>
         <button>Action 1</button>
-        <button>Action 2</button>
+        <button id="action2">Action 2</button>
         <button>Action 3</button>
       </menu>
     </brick-action-menu>
     ```
 
     ```javascript
+    // Click events on menu buttons work like usual
+    var action2 = document.getElementById('action2');
+    action2.addEventListener('click', function (ev) {
+      var button = ev.target;
+      // Handle clicked menu item button here.
+    });
+
     var menu = document.getElementById('menu-ex1');
 
     // Optional event handler
