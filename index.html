@@ -35,55 +35,69 @@
     <h2>Results</h2>
     <textarea id="log"></textarea>
 
-    <brick-action-menu id="menu-ex1">
-      <menu>
-        <button>Action 1</button>
-        <button>Action 2</button>
-        <button>Action 3</button>
-      </menu>
-    </brick-action-menu>
-    
-    <brick-action-menu id="menu-ex2">
-      <header>
-        <h1>Example Title</h1>
-      </header>
+    <section id="menus">
 
-      <menu>
-        <button>Action 1</button>
-        <button disabled>Action 2 (disabled)</button>
-        <button>Action 3</button>
-
-        <button class="cancel">Cancel</button>
-      </menu>
-    </brick-action-menu>
-
-    <brick-action-menu id="menu-ex3">
-      <header>
-        <button><span class="icon icon-close">close</span></button>
-        <menu type="toolbar">
-          <button>Done</button>
+      <brick-action-menu id="menu-ex1">
+        <menu>
+          <button>Action 1</button>
+          <button>Action 2</button>
+          <button>Action 3</button>
         </menu>
-        <h1>Example Title</h1>
-      </header>
+      </brick-action-menu>
+      
+      <brick-action-menu id="menu-ex2">
+        <header>
+          <h1>Example Title</h1>
+        </header>
 
-      <section>
-        <p>Curabitur condimentum diam mollis lacus hendrerit congue. Phasellus
-        porttitor orci elit, ac consequat est mollis ut. Ut consequat ipsum a
-        ullamcorper aliquam.</p>
-      </section>
+        <menu>
+          <button>Action 1</button>
+          <button disabled>Action 2 (disabled)</button>
+          <button>Action 3</button>
 
-      <menu>
-        <button>Action 1</button>
-        <button disabled>Action 2 (disabled)</button>
-        <button>Action 3</button>
+          <button class="cancel">Cancel</button>
+        </menu>
+      </brick-action-menu>
 
-        <button class="cancel">Cancel</button>
-      </menu>
-    </brick-action-menu>
+      <brick-action-menu id="menu-ex3">
+        <header>
+          <button><span class="icon icon-close">close</span></button>
+          <menu type="toolbar">
+            <button>Done</button>
+          </menu>
+          <h1>Example Title</h1>
+        </header>
+
+        <section>
+          <p>Curabitur condimentum diam mollis lacus hendrerit congue. Phasellus
+          porttitor orci elit, ac consequat est mollis ut. Ut consequat ipsum a
+          ullamcorper aliquam.</p>
+        </section>
+
+        <menu>
+          <button>Action 1</button>
+          <button disabled>Action 2 (disabled)</button>
+          <button>Action 3</button>
+
+          <button class="cancel">Cancel</button>
+        </menu>
+      </brick-action-menu>
+
+    </section>
 
     <script type="text/javascript">
 
       document.addEventListener('WebComponentsReady', function () { 
+
+        // Event delegation for all buttons in the menus section.
+        var menuSection = document.getElementById('menus');
+        menuSection.addEventListener('click', function (e) {
+          if (/^button$/i.test(e.target.tagName)) {
+            var button = e.target;
+            var menu = button.parentNode.parentNode.parentNode;
+            _log("Button event 'click': " + menu.id + ", " + button.innerHTML); 
+          }
+        });
 
         // Wire up event listeners for all action menus
         var menus = document.querySelectorAll('brick-action-menu');
@@ -92,7 +106,7 @@
            
             // NOTE: Menus emit a 'pick' event when an item is clicked.
             menu.addEventListener('pick', function (e) {
-              _log("Event 'pick': " + menu.id + ", " + e.target.innerHTML); 
+              _log("Menu event 'pick': " + menu.id + ", " + e.target.innerHTML); 
             });
 
           })(menus[i]);

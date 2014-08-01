@@ -5,8 +5,7 @@
   var currScript = document._currentScript || document.currentScript;
   var tmpl = currScript.ownerDocument.getElementById('action-menu-template');
 
-  // Attribute handlers
- 
+  // Element attribute handlers
   var attrs = {
 
     "visible": function (oldVal, newVal) {
@@ -49,9 +48,11 @@
   var EV_PICK = 'pick';
   var RE_BUTTON = /^button$/i;
 
-  // Initial setup of the custom element
+  // Lifecycle methods
 
-  function setup (_this) {
+  BrickActionMenuElementPrototype.createdCallback = function () {
+    var _this = this;
+
     _this.ns = {
       visible: false
     };
@@ -103,17 +104,6 @@
 
     // Inject the cloned root into the document.
     _this.appendChild(_this.root);
-  }
-
-  function cleanup (_this) {
-    // TODO: Do I really need to do this? Memory leak superstition.
-    _this.root = _this.ns = null;
-  }
-
-  // Lifecycle methods
-
-  BrickActionMenuElementPrototype.createdCallback = function () {
-    setup(this);
   };
 
   BrickActionMenuElementPrototype.attachedCallback = function () {
@@ -122,24 +112,20 @@
         attrs[k].call(this, undefined, this.getAttribute(k));
       }
     }
-    // Handle all attribs on attach before updating.
-    // update(this);
   };
 
   BrickActionMenuElementPrototype.attributeChangedCallback = function (attr, oldVal, newVal) {
     if (attr in attrs) {
       attrs[attr].call(this, oldVal, newVal);
     }
-    // Handle a single attrib on change before updating.
-    // update(this);
   };
 
   BrickActionMenuElementPrototype.detachedCallback = function () {
-    cleanup(this);
+    // TODO: Do I really need to do this? Memory leak superstition.
+    this.root = this.ns = null;
   };
 
-  // Property handlers, magically boilerplated
-
+  // Property handlers, magically boilerplated from attribute handlers.
   var props = {};
   function makeProp (name) {
     return {
@@ -157,7 +143,6 @@
   Object.defineProperties(BrickActionMenuElementPrototype, props);
 
   // Register the element
-
   window.BrickActionMenuElement = document.registerElement('brick-action-menu', {
     prototype: BrickActionMenuElementPrototype
   });
