@@ -335,7 +335,7 @@
   z-index: -1;
 }
 
-[role="dialog"][data-type="action"] > menu > button:nth-last-child(2) {
+[role="dialog"][data-type="action"][data-with-cancel] > menu > button:nth-last-child(2) {
   margin-bottom: 1.5rem;
 }
 
