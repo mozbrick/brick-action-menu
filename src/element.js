@@ -28,20 +28,26 @@
   
   BrickActionMenuElementPrototype.show = function (callback, immediate) {
     if (this.ns.visible) { return; }
+    
     this.ns.visible = true;
     this.ns.callback = callback;
-    this.root.classList.remove('fade-out');
-    this.root.classList.remove('hide');
-    this.root.classList.add(immediate ? 'show' : 'fade-in');
+    
+    var form = shadowRoot.querySelector('form');
+    form.classList.remove('fade-out');
+    form.classList.remove('hide');
+    form.classList.add(immediate ? 'show' : 'fade-in');
   };
 
   BrickActionMenuElementPrototype.hide = function (immediate) {
     if (!this.ns.visible) { return; }
+    
     this.ns.visible = false;
     this.ns.callback = null;
-    this.root.classList.remove('fade-in');
-    this.root.classList.remove('show');
-    this.root.classList.add(immediate ? 'hide' : 'fade-out');
+
+    var form = shadowRoot.querySelector('form');
+    form.classList.remove('fade-in');
+    form.classList.remove('show');
+    form.classList.add(immediate ? 'hide' : 'fade-out');
   };
 
   var EV_PICK = 'pick';
@@ -62,11 +68,10 @@
     var shadowRoot = this.createShadowRoot();
     shadowRoot.appendChild(template.content.cloneNode(true));
 
-    this.root = shadowRoot.querySelector('form');
-
     // HACK: Annotate the menu for styling if there's a cancel button
     if (this.querySelector('button.cancel')) {
-      this.root.setAttribute('data-with-cancel', 'true');
+      shadowRoot.querySelector('form')
+        .setAttribute('data-with-cancel', 'true');
     }
 
     // Squelch the form submission process
@@ -115,8 +120,6 @@
   };
 
   BrickActionMenuElementPrototype.detachedCallback = function () {
-    // TODO: Do I really need to do this? Memory leak superstition.
-    this.root = this.ns = null;
   };
 
   // Property handlers, magically boilerplated from attribute handlers.
