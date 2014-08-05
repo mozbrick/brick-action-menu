@@ -1,9 +1,8 @@
 (function () {
 
-  var BrickActionMenuElementPrototype = Object.create(HTMLElement.prototype);
+  var currentScript = document._currentScript || document.currentScript;
 
-  var currScript = document._currentScript || document.currentScript;
-  var tmpl = currScript.ownerDocument.getElementById('action-menu-template');
+  var BrickActionMenuElementPrototype = Object.create(HTMLElement.prototype);
 
   // Element attribute handlers
   var attrs = {
@@ -51,46 +50,44 @@
   // Lifecycle methods
 
   BrickActionMenuElementPrototype.createdCallback = function () {
-    var _this = this;
 
-    _this.ns = {
+    var importDoc = currentScript.ownerDocument;
+    var template = importDoc.getElementById('brick-action-menu-template');
+
+    this.ns = {
       visible: false
     };
 
-    // Grab root _this from template, clone & remember it
-    var frag = document.importNode(tmpl.content, true);
-    _this.root = frag.querySelector('form');
+    // create shadowRoot and append template to it.
+    var shadowRoot = this.createShadowRoot();
+    shadowRoot.appendChild(template.content.cloneNode(true));
 
-    // Move all the custom _this children into the cloned root
-    while (_this.firstChild) {
-      _this.root.appendChild(_this.firstChild);
+    this.root = shadowRoot.querySelector('form');
+
+    // HACK: Annotate the menu for styling if there's a cancel button
+    if (this.querySelector('button.cancel')) {
+      this.root.setAttribute('data-with-cancel', 'true');
     }
 
     // Squelch the form submission process
-    _this.root.addEventListener('submit', function (e) {
+    this.addEventListener('submit', function (e) {
       e.preventDefault();
       e.stopPropagation();
     });
 
-    // HACK: Annotate the menu for styling if there's a cancel button
-    var elCancel = _this.root.querySelector('button.cancel');
-    if (elCancel) {
-      _this.root.setAttribute('data-with-cancel', 'true');
-    }
-
     // Event delegation for all buttons in the menu
-    _this.root.addEventListener('click', function (e) {
+    this.addEventListener('click', function (e) {
       if (!RE_BUTTON.test(e.target.tagName)) { return; }
 
       // Do we have a callback supplied from show()?
-      if (_this.ns.callback) {
-        // HACK: Preserve the callback we're about to discard on hide(), but
-        // defer the callback for just a little bit.
+      if (this.ns.callback) {
+        // HACK: Defer the callback, yielding for animations & etc.
         (function (cb) {
-          setTimeout(function () {
-            cb(e.target);
-          }, 0.1);
-        })(_this.ns.callback);
+          setTimeout(function () { cb(e.target); }, 0.1);
+        })(this.ns.callback);
+        
+        // Clear the callback (which is why we just used a closure to defer)
+        this.ns.callback = null;
       }
 
       // Dispatch a custom event for the menu item pick
@@ -99,11 +96,8 @@
       }));
 
       // Finish up by hiding the menu.
-      return _this.hide();
+      return this.hide();
     });
-
-    // Inject the cloned root into the document.
-    _this.appendChild(_this.root);
   };
 
   BrickActionMenuElementPrototype.attachedCallback = function () {
