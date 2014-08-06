@@ -1,6 +1,6 @@
 # brick-action-menu
 
-> An action menu element for [Brick](https://github.com/mozilla/brick/)
+> A [Brick](https://github.com/mozbrick/brick/) custom element starter-kit.
 
 ## Demo
 
@@ -17,63 +17,36 @@
 2. Import Custom Element:
 
     ```html
-    <link rel="import" href="src/element.html">
+    <link rel="import" href="src/brick-action-menu.html">
     ```
 
 3. Start using it:
 
     ```html
-    <brick-action-menu id="menu-ex1">
-      <menu>
-        <button>Action 1</button>
-        <button id="action2">Action 2</button>
-        <button>Action 3</button>
-      </menu>
-    </brick-action-menu>
-    ```
-
-    ```javascript
-    // Click events on menu buttons work like usual
-    var action2 = document.getElementById('action2');
-    action2.addEventListener('click', function (ev) {
-      var button = ev.target;
-      // Handle clicked menu item button here.
-    });
-
-    var menu = document.getElementById('menu-ex1');
-
-    // Optional event handler
-    menu.addEventListener('pick', function (ev) {
-      var button = ev.target;
-      // Handle clicked menu item button here.
-    });
-
-    // Optional callback on show()
-    menu.show(function (button) {
-      // Handle clicked menu item button here.
-    });
+    <brick-action-menu></brick-action-menu>
     ```
 
 ## Options
 
 Attribute     | Options     | Default      | Description
 ---           | ---         | ---          | ---
-`visible`     | *boolean*   | `false`      | Whether or not the menu is visible and active.
+`foo`         | *string*    | `bar`        | An Attribute.
 
 ## Methods
 
 Method        | Parameters   | Returns     | Description
 ---           | ---          | ---         | ---
-`show([cb])`  | Optional callback, receives the menu item clicked | Nothing. | Reveals and activates the menu.
-`hide()`      | None.        | Nothing.    | Hide and deactivate the menu. 
+`method()`    | None.        | Nothing.    | A method.
 
 ## Events
 
 Event         | Description
 ---           | ---
-`onpick`      | Triggered when an item is chosen from the menu.
+`onsomething` | Triggers when something happens.
 
 ## Development
+
+Brick components use [Stylus](http://learnboost.github.com/stylus/) to generate their CSS.
 
 This repository comes outfitted with a set of tools to ease the development process.
 
@@ -96,12 +69,8 @@ While developing your component, there is a development server that will watch y
 To run the development server:
 
 * Run `gulp server`
-* Navigate to `http:localhost:3001`
+* Navigate to `http://localhost:3001`
 
 To simply build and lint your code, run `gulp build`.
 
 You can also push your code to GitHub Pages by running `gulp deploy`.
-
-## License
-
-[MIT License](http://opensource.org/licenses/MIT)

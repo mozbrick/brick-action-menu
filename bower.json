@@ -5,13 +5,13 @@
   "authors": [
     "mozilla"
   ],
-  "description": "A Brick component that manages an action menu",
-  "main": "src/element.html",
+  "description": "An action menu for Brick",
+  "main": "dist/brick-action-menu.html",
   "keywords": [
     "brick",
     "webcomponents"
   ],
-  "license": "MIT",
+  "license": "ISC",
   "ignore": [
     "**/.*",
     "node_modules",

@@ -1,3 +1,5 @@
+/* global Platform */
+
 (function () {
 
   var currentScript = document._currentScript || document.currentScript;
@@ -25,13 +27,13 @@
   };
 
   // Custom methods
-  
+
   BrickActionMenuElementPrototype.show = function (callback) {
     if (this.ns.visible) { return; }
-    
+
     this.ns.visible = true;
     this.ns.callback = callback;
-    
+
     var form = this.shadowRoot.querySelector('form');
     form.classList.remove('hide');
     form.classList.add('show');
@@ -39,7 +41,7 @@
 
   BrickActionMenuElementPrototype.hide = function () {
     if (!this.ns.visible) { return; }
-    
+
     this.ns.visible = false;
     this.ns.callback = null;
 
@@ -56,15 +58,17 @@
   BrickActionMenuElementPrototype.createdCallback = function () {
 
     var importDoc = currentScript.ownerDocument;
-    var template = importDoc.getElementById('brick-action-menu-template');
+    var templateContent = importDoc.querySelector('template').content;
+
+    shimShadowStyles(templateContent.querySelectorAll('style'),'brick-action-menu');
+
+    // create shadowRoot and append template to it.
+    var shadowRoot = this.createShadowRoot();
+    shadowRoot.appendChild(templateContent.cloneNode(true));
 
     this.ns = {
       visible: false
     };
-
-    // create shadowRoot and append template to it.
-    var shadowRoot = this.createShadowRoot();
-    shadowRoot.appendChild(template.content.cloneNode(true));
 
     // HACK: Annotate the menu for styling if there's a cancel button
     if (this.querySelector('button.cancel')) {
@@ -88,7 +92,7 @@
         (function (cb) {
           setTimeout(function () { cb(e.target); }, 0.1);
         })(this.ns.callback);
-        
+
         // Clear the callback (which is why we just used a closure to defer)
         this.ns.callback = null;
       }
@@ -141,5 +145,19 @@
   window.BrickActionMenuElement = document.registerElement('brick-action-menu', {
     prototype: BrickActionMenuElementPrototype
   });
+
+  // Utility funcitons
+
+  function shimShadowStyles(styles, tag) {
+    if (!Platform.ShadowCSS) {
+      return;
+    }
+    for (var i = 0; i < styles.length; i++) {
+      var style = styles[i];
+      var cssText = Platform.ShadowCSS.shimStyle(style, tag);
+      Platform.ShadowCSS.addCssToDocument(cssText);
+      style.remove();
+    }
+  }
 
 })();
