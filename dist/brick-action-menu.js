@@ -30,24 +30,18 @@
 
   BrickActionMenuElementPrototype.show = function (callback) {
     if (this.ns.visible) { return; }
-
     this.ns.visible = true;
     this.ns.callback = callback;
-
-    var form = this.shadowRoot.querySelector('form');
-    form.classList.remove('hide');
-    form.classList.add('show');
+    this.classList.remove('hide');
+    this.classList.add('show');
   };
 
   BrickActionMenuElementPrototype.hide = function () {
     if (!this.ns.visible) { return; }
-
     this.ns.visible = false;
     this.ns.callback = null;
-
-    var form = this.shadowRoot.querySelector('form');
-    form.classList.remove('show');
-    form.classList.add('hide');
+    this.classList.remove('show');
+    this.classList.add('hide');
   };
 
   var EV_PICK = 'pick';
