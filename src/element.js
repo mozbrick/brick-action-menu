@@ -16,9 +16,9 @@
       if (oldVal === newVal) {
         return;
       } else if (newVal === true) {
-        this.show(null, true);
+        this.show();
       } else if (newVal === false) {
-        this.hide(true);
+        this.hide();
       }
     }
 
@@ -26,28 +26,26 @@
 
   // Custom methods
   
-  BrickActionMenuElementPrototype.show = function (callback, immediate) {
+  BrickActionMenuElementPrototype.show = function (callback) {
     if (this.ns.visible) { return; }
     
     this.ns.visible = true;
     this.ns.callback = callback;
     
-    var form = shadowRoot.querySelector('form');
-    form.classList.remove('fade-out');
+    var form = this.shadowRoot.querySelector('form');
     form.classList.remove('hide');
-    form.classList.add(immediate ? 'show' : 'fade-in');
+    form.classList.add('show');
   };
 
-  BrickActionMenuElementPrototype.hide = function (immediate) {
+  BrickActionMenuElementPrototype.hide = function () {
     if (!this.ns.visible) { return; }
     
     this.ns.visible = false;
     this.ns.callback = null;
 
-    var form = shadowRoot.querySelector('form');
-    form.classList.remove('fade-in');
+    var form = this.shadowRoot.querySelector('form');
     form.classList.remove('show');
-    form.classList.add(immediate ? 'hide' : 'fade-out');
+    form.classList.add('hide');
   };
 
   var EV_PICK = 'pick';

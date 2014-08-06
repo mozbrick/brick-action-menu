@@ -24,16 +24,6 @@
   visibility: hidden;
 }
 
-[role="dialog"][data-type="action"].show {
-  visibility: visible;
-  opacity: 1;
-}
-
-[role="dialog"][data-type="action"].hide {
-  visibility: hidden;
-  opacity: 0;
-}
-
 @keyframes brickActionMenuFadeIn {
   0%   { opacity: 0; visibility: visible; }
   100% { opacity: 1; visibility: visible; }
@@ -52,12 +42,12 @@
   100% { opacity: 0; visibility: hidden; }
 }
 
-[role="dialog"][data-type="action"].fade-in {
+[role="dialog"][data-type="action"].show {
   animation: brickActionMenuFadeIn 0.2s forwards;
   -webkit-animation: brickActionMenuFadeIn 0.2s forwards;
 }
 
-[role="dialog"][data-type="action"].fade-out {
+[role="dialog"][data-type="action"].hide {
   animation: brickActionMenuFadeOut 0.2s forwards;
   -webkit-animation: brickActionMenuFadeOut 0.2s forwards;
 }
