@@ -9,13 +9,33 @@
   // Custom methods
 
   BrickActionMenuElementPrototype.show = function (callback) {
-    this.setAttribute('visible', true);
     this.ns.callback = callback;
+
+    var form = this.shadowRoot.querySelector('form');
+    form.classList.remove('hidden');
+    form.classList.add('animateIn');
+
+    form.querySelector('fieldset').addEventListener('animationend', function handler (ev) {
+      if (ev.target !== this) { return; }
+      this.removeEventListener('animationend', handler);
+      form.classList.remove('animateIn');
+      form.classList.add('shown');
+    }, false);
   };
 
   BrickActionMenuElementPrototype.hide = function () {
-    this.removeAttribute('visible');
     this.ns.callback = null;
+
+    var form = this.shadowRoot.querySelector('form');
+    form.classList.remove('shown');
+    form.classList.add('animateOut');
+
+    form.addEventListener('animationend', function handler (ev) {
+      if (ev.target !== this) { return; }
+      this.removeEventListener('animationend', handler);
+      form.classList.remove('animateOut');
+      form.classList.add('hidden');
+    }, false);
   };
 
   var EV_PICK = 'pick';
@@ -35,12 +55,6 @@
     // create shadowRoot and append template to it.
     var shadowRoot = this.createShadowRoot();
     shadowRoot.appendChild(templateContent.cloneNode(true));
-
-    // Squelch the form submission process
-    this.addEventListener('submit', function (e) {
-      e.preventDefault();
-      e.stopPropagation();
-    });
 
     // Event delegation for all buttons in the menu
     this.addEventListener('click', function (e) {
@@ -67,6 +81,13 @@
       // Finish up by hiding the menu.
       return this.hide();
     });
+
+    // Squelch the form submission process
+    this.addEventListener('submit', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    });
+
   };
 
   BrickActionMenuElementPrototype.detachedCallback = function () {
