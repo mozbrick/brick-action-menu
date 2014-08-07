@@ -1,10 +1,7 @@
 <link rel="import" href="../bower_components/brick-common/brick-common.html">
 
 <template id="brick-action-menu-template">
-  <style>:host[visible] {
-  display: flex;
-}
-:host {
+  <style>:host() {
   --color-alpha: #333;
   --color-beta: #fff;
   --color-gamma: #4d4d4d;
@@ -22,13 +19,51 @@
   --font-small: 14px;
   --font-medium: 17px;
   --font-large: 23px;
+}
+:host() form[role="dialog"].animateIn {
+  visibility: visible;
+  animation-name: brickActionMenuFadeIn;
+  animation-duration: 0.3s;
+}
+:host() form[role="dialog"].animateIn fieldset {
+  animation-name: brickActionMenuTranslateIn;
+  animation-delay: 0.4s;
+  animation-duration: 0.3s;
+  animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+:host() form[role="dialog"].shown {
+  visibility: visible;
+}
+:host() form[role="dialog"].shown fieldset {
+  opacity: 1;
+}
+:host() form[role="dialog"].animateOut {
+  visibility: visible;
+  animation-name: brickActionMenuFadeOut;
+  animation-delay: 0.4s;
+  animation-duration: 0.3s;
+}
+:host() form[role="dialog"].animateOut fieldset {
+  animation-name: brickActionMenuFadeOut;
+  animation-duration: 0.3s;
+  animation-timing-function: linear;
+}
+:host() form[role="dialog"],
+:host() form[role="dialog"].hidden {
+  visibility: hidden;
+}
+:host() form[role="dialog"] fieldset,
+:host() form[role="dialog"].hidden fieldset {
+  opacity: 0;
+}
+:host() form[role="dialog"] {
   background: rgba(199,199,199,0.85);
   position: fixed;
   top: 0px;
   left: 0px;
   width: 100%;
   height: 100%;
-  display: none;
+  display: flex;
   -webkit-align-items: center;
   -moz-align-items: center;
   -ms-align-items: center;
@@ -40,25 +75,26 @@
   z-index: 200;
   font-style: italic;
 }
-:host form[role="dialog"] {
+:host() form[role="dialog"] fieldset {
   background: var(--color-iota);
   max-height: 75%;
   max-width: 350px;
   width: 90%;
+  border: 0;
   padding: 0;
   margin: auto;
 }
-:host form[role="dialog"] p {
+:host() form[role="dialog"] fieldset p {
   padding: var(--dim-small);
 }
-:host form[role="dialog"] menu {
+:host() form[role="dialog"] fieldset menu {
   max-height: 250px;
   overflow: hidden;
   margin: 0;
   padding: 0;
   display: flex;
 }
-:host form[role="dialog"] menu button {
+:host() form[role="dialog"] fieldset menu button {
   height: 50px;
   font-weight: lighter;
   font-style: italic;
@@ -69,11 +105,13 @@
   padding: 0rem 25px;
   background: var(--color-beta);
   color: var(--color-brand-blue);
-  transition: all 0.2;
-  transition-delay: var(--button-transition-delay, 200ms);
+/*
+          transition: all 0.2;
+          transition-delay:  var(--button-transition-delay, 200ms);
+          */
   position: relative;
 }
-:host form[role="dialog"] menu button:after {
+:host() form[role="dialog"] fieldset menu button:after {
   content: " ";
   position: absolute;
   height: calc(100% - var(--dim-micro) * 2);
@@ -83,25 +121,25 @@
   background: #e7e7e7;
   z-index: 1;
 }
-:host form[role="dialog"] menu button:active {
+:host() form[role="dialog"] fieldset menu button:active {
   background-color: var(--color-brand-blue);
   color: #fff;
   transition: none;
 }
-:host form[role="dialog"] menu button:active:after {
+:host() form[role="dialog"] fieldset menu button:active:after {
   z-index: -1;
 }
-:host form[role="dialog"] menu button:last-child:after {
+:host() form[role="dialog"] fieldset menu button:last-child:after {
   display: none;
 }
-:host form[role="dialog"].vertical menu {
+:host() form[role="dialog"].vertical menu {
   flex-direction: column;
   position: relative;
 }
-:host form[role="dialog"].vertical menu button {
+:host() form[role="dialog"].vertical menu button {
   width: 100%;
 }
-:host form[role="dialog"].vertical menu button:after {
+:host() form[role="dialog"].vertical menu button:after {
   position: absolute;
   width: calc(100% - var(--dim-micro) * 2);
   height: 1px;
@@ -110,10 +148,116 @@
   top: 49px;
   background: #e7e7e7;
 }
+@-moz-keyframes brickActionMenuTranslateIn {
+  0% {
+    opacity: 0;
+    transform: translateY(100px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+@-webkit-keyframes brickActionMenuTranslateIn {
+  0% {
+    opacity: 0;
+    transform: translateY(100px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+@-o-keyframes brickActionMenuTranslateIn {
+  0% {
+    opacity: 0;
+    transform: translateY(100px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+@keyframes brickActionMenuTranslateIn {
+  0% {
+    opacity: 0;
+    transform: translateY(100px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+@-moz-keyframes brickActionMenuFadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@-webkit-keyframes brickActionMenuFadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@-o-keyframes brickActionMenuFadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes brickActionMenuFadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@-moz-keyframes brickActionMenuFadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@-webkit-keyframes brickActionMenuFadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@-o-keyframes brickActionMenuFadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes brickActionMenuFadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
 </style>
   <style></style>
   <form role="dialog" data-type="action" class="vertical">
-    <content></content>
+    <fieldset>
+      <content></content>
+    </fieldset>
   </form>
 </template>
 
