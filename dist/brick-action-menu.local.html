@@ -1,26 +1,7 @@
 <link rel="import" href="../bower_components/brick-common/brick-common.html">
 
 <template id="brick-action-menu-template">
-  <style>:host() {
-  --color-alpha: #333;
-  --color-beta: #fff;
-  --color-gamma: #4d4d4d;
-  --color-delta: #5f5f5f;
-  --color-epsilon: #858585;
-  --color-zeta: #a6a6a6;
-  --color-eta: #c7c7c7;
-  --color-theta: #e7e7e7;
-  --color-iota: #f4f4f4;
-  --button-transition: all 0s;
-  --button-transition-delay: 300ms;
-  --dim-micro: 6px;
-  --dim-small: 14px;
-  --dim-mega: 60px;
-  --font-small: 14px;
-  --font-medium: 17px;
-  --font-large: 23px;
-}
-:host() form[role="dialog"].animateIn {
+  <style>:host() form[role="dialog"].animateIn {
   visibility: visible;
   animation-name: brickActionMenuFadeIn;
   animation-duration: 0.3s;
@@ -30,6 +11,9 @@
   animation-delay: 0.4s;
   animation-duration: 0.3s;
   animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+:host() form[role="dialog"].animateIn fieldset menu button {
+  transition: none;
 }
 :host() form[role="dialog"].shown {
   visibility: visible;
@@ -48,6 +32,9 @@
   animation-duration: 0.3s;
   animation-timing-function: linear;
 }
+:host() form[role="dialog"].animateOut fieldset menu button {
+  transition: none;
+}
 :host() form[role="dialog"],
 :host() form[role="dialog"].hidden {
   visibility: hidden;
@@ -57,7 +44,6 @@
   opacity: 0;
 }
 :host() form[role="dialog"] {
-  background: rgba(199,199,199,0.85);
   position: fixed;
   top: 0px;
   left: 0px;
@@ -76,16 +62,12 @@
   font-style: italic;
 }
 :host() form[role="dialog"] fieldset {
-  background: var(--color-iota);
   max-height: 75%;
   max-width: 350px;
   width: 90%;
   border: 0;
   padding: 0;
   margin: auto;
-}
-:host() form[role="dialog"] fieldset p {
-  padding: var(--dim-small);
 }
 :host() form[role="dialog"] fieldset menu {
   max-height: 250px;
@@ -98,32 +80,22 @@
   height: 50px;
   font-weight: lighter;
   font-style: italic;
-  font-size: var(--font-medium);
   flex-grow: 1;
   margin: 0;
   border: 0;
   padding: 0rem 25px;
-  background: var(--color-beta);
-  color: var(--color-brand-blue);
-/*
-          transition: all 0.2;
-          transition-delay:  var(--button-transition-delay, 200ms);
-          */
+  transition: all 0.2;
+  transition-delay: 300ms;
   position: relative;
 }
 :host() form[role="dialog"] fieldset menu button:after {
   content: " ";
   position: absolute;
-  height: calc(100% - var(--dim-micro) * 2);
   width: 1px;
-  top: var(--dim-micro);
   right: 0px;
-  background: #e7e7e7;
   z-index: 1;
 }
 :host() form[role="dialog"] fieldset menu button:active {
-  background-color: var(--color-brand-blue);
-  color: #fff;
   transition: none;
 }
 :host() form[role="dialog"] fieldset menu button:active:after {
@@ -141,12 +113,9 @@
 }
 :host() form[role="dialog"].vertical menu button:after {
   position: absolute;
-  width: calc(100% - var(--dim-micro) * 2);
   height: 1px;
   bottom: 0px;
-  left: var(--dim-micro);
   top: 49px;
-  background: #e7e7e7;
 }
 @-moz-keyframes brickActionMenuTranslateIn {
   0% {
@@ -253,7 +222,41 @@
   }
 }
 </style>
-  <style></style>
+  <style>:host() {
+  color: #858585;
+  font-family: "Fira Sans", "Fira Sans", "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
+  text-align: center;
+  --dim-micro: 6px;
+}
+:host() form[role="dialog"] {
+  background: rgba(199,199,199,0.85);
+}
+:host() form[role="dialog"] fieldset {
+  background: #f4f4f4;
+}
+:host() form[role="dialog"] fieldset header {
+  padding: 14px;
+}
+:host() form[role="dialog"] fieldset menu button {
+  font-size: 17px;
+  background: #fff;
+  color: #00caf2;
+}
+:host() form[role="dialog"] fieldset menu button:after {
+  height: calc(100% - var(--dim-micro) * 2);
+  top: 6px;
+  background: #e7e7e7;
+}
+:host() form[role="dialog"] fieldset menu button:active {
+  background-color: #00caf2;
+  color: #fff;
+}
+:host() form[role="dialog"].vertical menu button:after {
+  width: calc(100% - var(--dim-micro) * 2);
+  left: 6px;
+  background: #e7e7e7;
+}
+</style>
   <form role="dialog" data-type="action" class="vertical">
     <fieldset>
       <content></content>

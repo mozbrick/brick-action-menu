@@ -1,6 +1,5 @@
 @import '../bower_components/brick-common/styles/mixins'
 @import '../bower_components/brick-common/styles/params'
-@import '../bower_components/brick-common/styles/themes/default/params'
 
 @keyframes brickActionMenuTranslateIn {
     0% { opacity: 0; transform: translateY(100px); }
@@ -16,25 +15,6 @@
 }
 
 :host() {
-  --color-alpha: #333333;
-  --color-beta: #ffffff;
-  --color-gamma: #4d4d4d;
-  --color-delta: #5f5f5f;
-  --color-epsilon: #858585;
-  --color-zeta: #a6a6a6;
-  --color-eta: #c7c7c7;
-  --color-theta: #e7e7e7;
-  --color-iota: #f4f4f4;
-  --button-transition: all 0s;
-  --button-transition-delay: 300ms;
-
-  --dim-micro: 6px;
-  --dim-small: 14px;
-  --dim-mega: 60px;
-
-  --font-small: 14px;
-  --font-medium: 17px;
-  --font-large: 23px;
 
   form[role="dialog"].animateIn {
     visibility: visible;
@@ -46,6 +26,11 @@
       animation-delay: 0.4s;
       animation-duration: 0.3s;
       animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1.275);
+      menu {
+        button {
+            transition: none;
+        }
+      }
     }
   }
 
@@ -66,6 +51,11 @@
       animation-name: brickActionMenuFadeOut;
       animation-duration: 0.3s;
       animation-timing-function: linear;
+      menu {
+        button {
+            transition: none;
+        }
+      }
     }
   }
 
@@ -79,7 +69,6 @@
 
   form[role="dialog"] {
 
-    background: rgba(199,199,199,0.85);
     position: fixed;
     top: 0px;
     left: 0px;
@@ -92,17 +81,12 @@
     font-style: italic;
 
     fieldset {
-      background: var(--color-iota);
       max-height: 75%;
       max-width: 350px;
       width: 90%;
       border: 0;
       padding: 0;
       margin: auto;
-
-      p {
-        padding: var(--dim-small);
-      }
 
       menu {
         max-height: 250px;
@@ -115,33 +99,23 @@
           height: 50px;
           font-weight: lighter;
           font-style: italic;
-          font-size: var(--font-medium);
           flex-grow: 1;
           margin: 0;
           border: 0;
           padding: 0rem 25px;
-          background:  var(--color-beta);
-          color: var(--color-brand-blue);
-          /*
           transition: all 0.2;
-          transition-delay:  var(--button-transition-delay, 200ms);
-          */
+          transition-delay: 300ms;
           position: relative;
         }
 
         button:after {
             content: " ";
             position: absolute;
-            height: calc(100% - var(--dim-micro) * 2);
             width: 1px;
-            top: var(--dim-micro);
             right: 0px;
-            background: #e7e7e7;
             z-index: 1;
         }
         button:active {
-            background-color: var(--color-brand-blue);
-            color: #fff;
             transition: none;
         }
         button:active:after {
@@ -166,15 +140,11 @@
 
       button:after {
           position: absolute;
-          width: calc(100% - var(--dim-micro) * 2);
           height: 1px;
           bottom: 0px;
-          left: var(--dim-micro);
           top: 49px;
-          background: #e7e7e7;
       }
     }
   }
 
 }
-

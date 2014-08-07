@@ -28,10 +28,6 @@
 
     <ul id="show-examples">
       <li><button id="ex1" data-show="menu-ex1">Show Example #1: Simple</button></li>
-      <!--
-      <li><button id="ex2" data-show="menu-ex2">Show Example #2: Header &amp; cancel</button></li>
-      <li><button id="ex3" data-show="menu-ex3">Show Example #3: Full features</button></li>
-      -->
     </ul>
 
     <h2>Results</h2>
@@ -40,9 +36,10 @@
     <section id="menus">
 
       <brick-action-menu id="menu-ex1">
-        <p>Curabitur condimentum diam mollis lacus hendrerit congue. Phasellus
-          porttitor orci elit, ac consequat est mollis ut. Ut consequat ipsum a
-          ullamcorper aliquam.</p>
+        <header>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
+            eu mollis tortor.</p>
+        </header>
         <menu>
           <button>Action 1</button>
           <button>Action 2</button>
@@ -50,47 +47,6 @@
           <button>Cancel</button>
         </menu>
       </brick-action-menu>
-
-      <!--
-      <brick-action-menu id="menu-ex2">
-        <header>
-          <h1>Example Title</h1>
-        </header>
-
-        <menu>
-          <button>Action 1</button>
-          <button disabled>Action 2 (disabled)</button>
-          <button>Action 3</button>
-
-          <button class="cancel">Cancel</button>
-        </menu>
-      </brick-action-menu>
-
-      <brick-action-menu id="menu-ex3">
-        <header>
-          <button><span class="icon icon-close">close</span></button>
-          <menu type="toolbar">
-            <button>Done</button>
-          </menu>
-          <h1>Example Title</h1>
-        </header>
-
-        <section>
-          <p>Curabitur condimentum diam mollis lacus hendrerit congue. Phasellus
-          porttitor orci elit, ac consequat est mollis ut. Ut consequat ipsum a
-          ullamcorper aliquam.</p>
-        </section>
-
-        <menu>
-          <button>Action 1</button>
-          <button disabled>Action 2 (disabled)</button>
-          <button>Action 3</button>
-
-          <button class="cancel">Cancel</button>
-        </menu>
-        </brick-action-menu>
-        -->
-
     </section>
 
     <script type="text/javascript">
