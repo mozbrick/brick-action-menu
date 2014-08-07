@@ -53,42 +53,30 @@
 
       document.addEventListener('WebComponentsReady', function () {
 
-        // Event delegation for all buttons in the menus section.
-        var menuSection = document.getElementById('menus');
-        menuSection.addEventListener('click', function (e) {
-          if (/^button$/i.test(e.target.tagName)) {
-            var button = e.target;
-            var menu = button.parentNode.parentNode.parentNode;
-            _log("Button event 'click': " + menu.id + ", " + button.innerHTML);
-          }
+        var menu = document.getElementById('menu-ex1');
+
+        // Menus emit a 'pick' event when an item is clicked.
+        menu.addEventListener('pick', function (e) {
+          _log("Menu event 'pick': " + e.target.innerHTML);
         });
 
-        // Wire up event listeners for all action menus
-        var menus = document.querySelectorAll('brick-action-menu');
-        for (var i = 0; i < menus.length; i++) {
-          (function (menu) {
-
-            // NOTE: Menus emit a 'pick' event when an item is clicked.
-            menu.addEventListener('pick', function (e) {
-              _log("Menu event 'pick': " + menu.id + ", " + e.target.innerHTML);
+        var buttons = menu.querySelectorAll('button');
+        for (var i = 0; i < buttons.length; i++) {
+          (function (button) {
+            // Buttons emit 'click' events like usual.
+            button.addEventListener('click', function () {
+              _log("Button event 'click': " + button.innerHTML);
             });
-
-          })(menus[i]);
+          })(buttons[i]);
         }
 
-        // Wire up event delegation for example buttons
-        var buttonList = document.getElementById('show-examples');
-        buttonList.addEventListener('click', function (e) {
-          var id = e.target.getAttribute('data-show');
-          if (id) {
-            var menu = document.getElementById(id);
+        document.getElementById('ex1').addEventListener('click', function (e) {
 
-            // NOTE: show() reveals the menu, accepts an optional callback
-            menu.show(function (button) {
-              _log("Callback: " + id + ", " + button.innerHTML);
-            });
+          // menu.show() reveals the menu, accepts an optional callback
+          menu.show(function (button) {
+            _log("Callback: " + button.innerHTML);
+          });
 
-          }
         });
 
       });
