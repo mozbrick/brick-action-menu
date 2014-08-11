@@ -23,26 +23,53 @@
 3. Start using it:
 
     ```html
-    <brick-action-menu></brick-action-menu>
+    <brick-action-menu id="menu-ex1">
+      <menu>
+        <button>Action 1</button>
+        <button id="action2">Action 2</button>
+        <button>Action 3</button>
+      </menu>
+    </brick-action-menu>
+    ```
+
+    ```javascript
+    // Click events on menu buttons work like usual
+    var action2 = document.getElementById('action2');
+    action2.addEventListener('click', function (ev) {
+      var button = ev.target;
+      // Handle clicked menu item button here.
+    });
+
+    var menu = document.getElementById('menu-ex1');
+
+    // Optional event handler
+    menu.addEventListener('pick', function (ev) {
+      var button = ev.target;
+      // Handle clicked menu item button here.
+    });
+
+    // Optional callback on show()
+    menu.show(function (button) {
+      // Handle clicked menu item button here.
+    });
     ```
 
 ## Options
 
-Attribute     | Options     | Default      | Description
----           | ---         | ---          | ---
-`foo`         | *string*    | `bar`        | An Attribute.
+None.
 
 ## Methods
 
 Method        | Parameters   | Returns     | Description
 ---           | ---          | ---         | ---
-`method()`    | None.        | Nothing.    | A method.
+`show([cb])`  | Optional callback, receives the menu item clicked | Nothing. | Reveals and activates the menu.
+`hide()`      | None.        | Nothing.    | Hide and deactivate the menu. 
 
 ## Events
 
 Event         | Description
 ---           | ---
-`onsomething` | Triggers when something happens.
+`pick`        | Triggered when an item is chosen from the menu.
 
 ## Development
 
