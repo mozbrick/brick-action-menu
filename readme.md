@@ -1,6 +1,6 @@
 # brick-action-menu
 
-> A [Brick](https://github.com/mozbrick/brick/) custom element starter-kit.
+> An action menu for [Brick](https://github.com/mozbrick/brick/).
 
 ## Demo
 
