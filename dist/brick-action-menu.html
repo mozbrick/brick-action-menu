@@ -1,47 +1,47 @@
 <link rel="import" href="../../brick-common/brick-common.html">
 
 <template id="brick-action-menu-template">
-  <style>:host() form[role="dialog"].animateIn {
+  <style>:host() form[role="dialog"] {
+  visibility: hidden;
+}
+:host() form[role="dialog"] fieldset {
+  opacity: 0;
+}
+:host() form[role="dialog"][show] {
+  visibility: visible;
+}
+:host() form[role="dialog"][show] fieldset {
+  opacity: 1;
+}
+:host() form[role="dialog"][show="in"] {
   visibility: visible;
   animation-name: brickActionMenuFadeIn;
   animation-duration: 0.3s;
 }
-:host() form[role="dialog"].animateIn fieldset {
+:host() form[role="dialog"][show="in"] fieldset {
+  opacity: 0;
   animation-name: brickActionMenuTranslateIn;
   animation-delay: 0.4s;
   animation-duration: 0.3s;
   animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
-:host() form[role="dialog"].animateIn fieldset menu button {
+:host() form[role="dialog"][show="in"] fieldset menu button {
   transition: none;
 }
-:host() form[role="dialog"].shown {
-  visibility: visible;
-}
-:host() form[role="dialog"].shown fieldset {
-  opacity: 1;
-}
-:host() form[role="dialog"].animateOut {
+:host() form[role="dialog"][show="out"] {
   visibility: visible;
   animation-name: brickActionMenuFadeOut;
   animation-delay: 0.4s;
   animation-duration: 0.3s;
 }
-:host() form[role="dialog"].animateOut fieldset {
+:host() form[role="dialog"][show="out"] fieldset {
+  opacity: 0;
   animation-name: brickActionMenuFadeOut;
   animation-duration: 0.3s;
   animation-timing-function: linear;
 }
-:host() form[role="dialog"].animateOut fieldset menu button {
+:host() form[role="dialog"][show="out"] fieldset menu button {
   transition: none;
-}
-:host() form[role="dialog"],
-:host() form[role="dialog"].hidden {
-  visibility: hidden;
-}
-:host() form[role="dialog"] fieldset,
-:host() form[role="dialog"].hidden fieldset {
-  opacity: 0;
 }
 :host() form[role="dialog"] {
   position: fixed;
