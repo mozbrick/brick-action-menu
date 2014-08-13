@@ -16,12 +16,27 @@
 
 :host() {
 
-  form[role="dialog"].animateIn {
+  form[role="dialog"] {
+    visibility: hidden;
+    fieldset {
+      opacity: 0;
+    }
+  }
+
+  form[role="dialog"][show] {
+    visibility: visible;
+    fieldset {
+      opacity: 1;
+    }
+  }
+
+  form[role="dialog"][show="in"] {
     visibility: visible;
     animation-name: brickActionMenuFadeIn;
     animation-duration: 0.3s;
 
     fieldset {
+      opacity: 0;
       animation-name: brickActionMenuTranslateIn;
       animation-delay: 0.4s;
       animation-duration: 0.3s;
@@ -34,20 +49,14 @@
     }
   }
 
-  form[role="dialog"].shown {
-    visibility: visible;
-    fieldset {
-      opacity: 1;
-    }
-  }
-
-  form[role="dialog"].animateOut {
+  form[role="dialog"][show="out"] {
     visibility: visible;
     animation-name: brickActionMenuFadeOut;
     animation-delay: 0.4s;
     animation-duration: 0.3s;
 
     fieldset {
+      opacity: 0;
       animation-name: brickActionMenuFadeOut;
       animation-duration: 0.3s;
       animation-timing-function: linear;
@@ -56,14 +65,6 @@
             transition: none;
         }
       }
-    }
-  }
-
-  form[role="dialog"],
-  form[role="dialog"].hidden {
-    visibility: hidden;
-    fieldset {
-      opacity: 0;
     }
   }
 

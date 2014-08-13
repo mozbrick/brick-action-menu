@@ -4,7 +4,7 @@
 
 ## Demo
 
-[Check it live!](http://lmorchard.github.io/brick-action-menu)
+[Check it live!](http://mozbrick.github.io/brick-action-menu)
 
 ## Usage
 

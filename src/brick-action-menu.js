@@ -12,30 +12,27 @@
     this.ns.callback = callback;
 
     var form = this.shadowRoot.querySelector('form');
-    form.classList.remove('hidden');
-    form.classList.add('animateIn');
+    form.setAttribute('show', 'in');
 
-    form.querySelector('fieldset').addEventListener('animationend', function handler (ev) {
-      if (ev.target !== this) { return; }
-      this.removeEventListener('animationend', handler);
-      form.classList.remove('animateIn');
-      form.classList.add('shown');
-    }, false);
+    function animEnd (ev) {
+      this.removeEventListener('animationend', animEnd);
+      form.setAttribute('show', '');
+    };
+    form.querySelector('fieldset').addEventListener('animationend', animEnd);
   };
 
   BrickActionMenuElementPrototype.hide = function () {
     this.ns.callback = null;
 
     var form = this.shadowRoot.querySelector('form');
-    form.classList.remove('shown');
-    form.classList.add('animateOut');
+    form.setAttribute('show', 'out');
 
-    form.addEventListener('animationend', function handler (ev) {
+    function animEnd (ev) {
       if (ev.target !== this) { return; }
-      this.removeEventListener('animationend', handler);
-      form.classList.remove('animateOut');
-      form.classList.add('hidden');
-    }, false);
+      this.removeEventListener('animationend', animEnd);
+      form.removeAttribute('show');
+    };
+    form.addEventListener('animationend', animEnd, false);
   };
 
   var EV_PICK = 'pick';
