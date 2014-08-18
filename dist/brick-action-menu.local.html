@@ -1,49 +1,49 @@
 <link rel="import" href="../bower_components/brick-common/brick-common.html">
 
 <template id="brick-action-menu-template">
-  <style>:host() form[role="dialog"] {
+  <style>:host form[role="dialog"] {
   visibility: hidden;
 }
-:host() form[role="dialog"] fieldset {
+:host form[role="dialog"] fieldset {
   opacity: 0;
 }
-:host() form[role="dialog"][show] {
+:host form[role="dialog"][show] {
   visibility: visible;
 }
-:host() form[role="dialog"][show] fieldset {
+:host form[role="dialog"][show] fieldset {
   opacity: 1;
 }
-:host() form[role="dialog"][show="in"] {
+:host form[role="dialog"][show="in"] {
   visibility: visible;
   animation-name: brickActionMenuFadeIn;
   animation-duration: 0.3s;
 }
-:host() form[role="dialog"][show="in"] fieldset {
+:host form[role="dialog"][show="in"] fieldset {
   opacity: 0;
   animation-name: brickActionMenuTranslateIn;
   animation-delay: 0.4s;
   animation-duration: 0.3s;
   animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
-:host() form[role="dialog"][show="in"] fieldset menu button {
+:host form[role="dialog"][show="in"] fieldset menu button {
   transition: none;
 }
-:host() form[role="dialog"][show="out"] {
+:host form[role="dialog"][show="out"] {
   visibility: visible;
   animation-name: brickActionMenuFadeOut;
   animation-delay: 0.4s;
   animation-duration: 0.3s;
 }
-:host() form[role="dialog"][show="out"] fieldset {
+:host form[role="dialog"][show="out"] fieldset {
   opacity: 0;
   animation-name: brickActionMenuFadeOut;
   animation-duration: 0.3s;
   animation-timing-function: linear;
 }
-:host() form[role="dialog"][show="out"] fieldset menu button {
+:host form[role="dialog"][show="out"] fieldset menu button {
   transition: none;
 }
-:host() form[role="dialog"] {
+:host form[role="dialog"] {
   position: fixed;
   top: 0px;
   left: 0px;
@@ -61,7 +61,7 @@
   z-index: 200;
   font-style: italic;
 }
-:host() form[role="dialog"] fieldset {
+:host form[role="dialog"] fieldset {
   max-height: 75%;
   max-width: 350px;
   width: 90%;
@@ -69,14 +69,14 @@
   padding: 0;
   margin: auto;
 }
-:host() form[role="dialog"] fieldset menu {
+:host form[role="dialog"] fieldset menu {
   max-height: 250px;
   overflow: hidden;
   margin: 0;
   padding: 0;
   display: flex;
 }
-:host() form[role="dialog"] fieldset menu button {
+:host form[role="dialog"] fieldset menu button {
   height: 50px;
   font-weight: lighter;
   font-style: italic;
@@ -88,30 +88,30 @@
   transition-delay: 300ms;
   position: relative;
 }
-:host() form[role="dialog"] fieldset menu button:after {
+:host form[role="dialog"] fieldset menu button:after {
   content: " ";
   position: absolute;
   width: 1px;
   right: 0px;
   z-index: 1;
 }
-:host() form[role="dialog"] fieldset menu button:active {
+:host form[role="dialog"] fieldset menu button:active {
   transition: none;
 }
-:host() form[role="dialog"] fieldset menu button:active:after {
+:host form[role="dialog"] fieldset menu button:active:after {
   z-index: -1;
 }
-:host() form[role="dialog"] fieldset menu button:last-child:after {
+:host form[role="dialog"] fieldset menu button:last-child:after {
   display: none;
 }
-:host() form[role="dialog"].vertical menu {
+:host form[role="dialog"].vertical menu {
   flex-direction: column;
   position: relative;
 }
-:host() form[role="dialog"].vertical menu button {
+:host form[role="dialog"].vertical menu button {
   width: 100%;
 }
-:host() form[role="dialog"].vertical menu button:after {
+:host form[role="dialog"].vertical menu button:after {
   position: absolute;
   height: 1px;
   bottom: 0px;
